@@ -6,7 +6,7 @@ import random
 data = pd.read_csv('data.csv', index_col = 'Product Id')
 
 def query(income_string, data_reduction):
-    '''Chooses items from narrawed data for which last input given by a customer is most relevant'''
+    '''Chooses items from narrowed data for which last input given by a customer is most relevant'''
     candidates = []
     #for more data faster method needed
     #Find rows in data/narrowed data in which words from customer's input participate most often
@@ -31,40 +31,42 @@ def ask_first_question():
     sys.stdout.write('Tip: you can type "abort" any time to abort the session. ')
         
 def ask_another_question():
-    '''Asks for info about the item if previous answers didn't give ebeough info'''
+    '''Asks for info about the item if previous answers didn't give enough info'''
     sys.stdout.write("Sorry, we need more information to proceed. What else can you say about the device you are looking for? ")
         
 def ask_to_choose(data_reduction):
-    '''Asks to enter a number corresponding to 1 of the items in narrowed data'''
+    '''Asks to enter a number corresponding to one of the items in the narrowed data'''
     sys.stdout.write('We believe you are looking for one of these: \n')
     sys.stdout.write("\n".join([str(i)+': ' + data_reduction.iloc[i]['Product Name'] for i in range(data_reduction.shape[0])]))
     sys.stdout.write('\nPlease enter the number of the desired device: ')
      
 def ask_to_choose_again():
-    '''Asks to enter a number corresponding to 1 of the items in narrowed data, after a customer entered a wrong number'''
-    sys.stdout.write("The number you entered doesn't correspond to any device. Please try again.")
+    '''Asks to enter a number corresponding to one of the items in narrowed data, after a customer entered a wrong number'''
+    sys.stdout.write("The number you entered doesn't correspond to any device. Please try again. ")
     
 def suggest_random(data_reduction):
     '''Suggests random item from narrowed data'''
     sys.stdout.write("Sorry! We are not sure what you are looking for.\n")
-    #Suggest random device. Just one option for a policy, when we can't figure out what to suggest
+    #Suggest random device. Just an option what to do, when we can't figure out what to suggest
     random_idx = random.randint(0, data_reduction.shape[0]-1)
     sys.stdout.write('Try ' + data_reduction.iloc[random_idx]['Product Name']+
-                             '. The subscription price is ' + str(data_reduction.iloc[random_idx]['Subscription Plan']))
+                             '. Subscription price is ' + str(data_reduction.iloc[random_idx]['Subscription Plan'])+' €.')
     
 def suggest(data_reduction, device_idx=-1):
     '''Suggests either chosen or single left item to a customer'''
     if  device_idx != -1:
-        sys.stdout.write('You chose ' + data_reduction.iloc[device_idx]['Product Name']+'. The subscription price is '
-                        + str(data_reduction.iloc[device_idx]['Subscription Plan'])) 
+        sys.stdout.write('You chose ' + data_reduction.iloc[device_idx]['Product Name']+'. Subscription price is '
+                        + str(data_reduction.iloc[device_idx]['Subscription Plan'])+' €.') 
     else:
        sys.stdout.write('We believe you are looking for ' + data_reduction.iloc[0]['Product Name']+
-                         '. The subscription price is ' + str(data_reduction.iloc[0]['Subscription Plan']))
+                         '. Subscription price is ' + str(data_reduction.iloc[0]['Subscription Plan'])+' €.')
        
 def check_reset(income_string):
+    '''Checks if a customer enterd reset code word'''
     return income_string =='abort'
     
 def reset():
+    '''Runs a new session'''
     sys.stdout.write("You aborted the session. Let's try again.\n")
     main()
         
