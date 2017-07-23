@@ -4,11 +4,7 @@ import numpy as np
 import sys
 import random
 
-mail = pd.read_html('Gmail.html' )
-data = mail[-1]
-data.columns =  data.iloc[0]
-data = data[1:] 
-data.set_index('Product Id')
+data = pd.read_csv('data.csv', index_col = 'Product Id')
 
 def query(income_string, data_reduction):
     '''Chooses items from narrawed data for which last input given by a customer is most relevant'''
@@ -16,7 +12,7 @@ def query(income_string, data_reduction):
     #for more data faster method needed
     #Find rows in data/narrowed data in which words from customer's input participate most often
     for word in income_string.split(' '):
-        for column in data_reduction.drop(['Product Id', 'Subscription Plan'], axis = 1).columns.values:
+        for column in data_reduction.drop(['Subscription Plan'], axis = 1).columns.values:
             #think of some nicer way to do it
             candidates.append([word.lower() in string.lower().split(' ') for string in data_reduction[column].tolist()])
     matches = np.sum(np.array(candidates), axis = 0)
@@ -54,16 +50,16 @@ def suggest_random(data_reduction):
     #Suggest random device. Just one option for a policy, when we can't figure out what to suggest
     random_idx = random.randint(0, data_reduction.shape[0]-1)
     sys.stdout.write('Try ' + data_reduction.iloc[random_idx]['Product Name']+
-                             '. The subscription price is ' + data_reduction.iloc[random_idx]['Subscription Plan'])
+                             '. The subscription price is ' + str(data_reduction.iloc[random_idx]['Subscription Plan']))
     
 def suggest(data_reduction, device_idx=-1):
     '''Suggests either chosen or single left item to a customer'''
     if  device_idx != -1:
         sys.stdout.write('You chose ' + data_reduction.iloc[device_idx]['Product Name']+'. The subscription price is '
-                        + data_reduction.iloc[device_idx]['Subscription Plan']  ) 
+                        + str(data_reduction.iloc[device_idx]['Subscription Plan'])) 
     else:
        sys.stdout.write('We believe you are looking for ' + data_reduction.iloc[0]['Product Name']+
-                         '. The subscription price is ' + data_reduction.iloc[0]['Subscription Plan'])
+                         '. The subscription price is ' + str(data_reduction.iloc[0]['Subscription Plan']))
         
     
 def main():
