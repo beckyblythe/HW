@@ -1,5 +1,4 @@
 import pandas as pd
-import re
 import numpy as np
 import sys
 import random
@@ -25,15 +24,16 @@ def read_message():
         sys.stdout.write("Your message is empty. Please try again. ")
         income_string = input()
     return income_string  
+
+def ask_first_question():
+    '''Starts the conversation. Asks to enter some info about the item'''
+    sys.stdout.write('Hello! What kind of device are you interested in?\n') 
+    sys.stdout.write('Tip: you can type "abort" any time to abort the session. ')
         
 def ask_another_question():
     '''Asks for info about the item if previous answers didn't give ebeough info'''
     sys.stdout.write("Sorry, we need more information to proceed. What else can you say about the device you are looking for? ")
         
-def ask_first_question():
-    '''Starts the conversation. Asks to enter some info about the item'''
-    sys.stdout.write('Hello! What kind of device are you interested in? ') 
-
 def ask_to_choose(data_reduction):
     '''Asks to enter a number corresponding to 1 of the items in narrowed data'''
     sys.stdout.write('We believe you are looking for one of these: \n')
@@ -60,6 +60,13 @@ def suggest(data_reduction, device_idx=-1):
     else:
        sys.stdout.write('We believe you are looking for ' + data_reduction.iloc[0]['Product Name']+
                          '. The subscription price is ' + str(data_reduction.iloc[0]['Subscription Plan']))
+       
+def check_reset(income_string):
+    return income_string =='abort'
+    
+def reset():
+    sys.stdout.write("You aborted the session. Let's try again.\n")
+    main()
         
     
 def main():
@@ -73,6 +80,10 @@ def main():
         else:
             ask_another_question()
         income_string = read_message()
+        #check for session reset
+        if check_reset(income_string):
+            reset()
+            return
         data_reduction = query(income_string, data_reduction)
         question_number += 1
     #if we narrrowed number of items enough, make a decision which item to suggest
@@ -85,18 +96,20 @@ def main():
             #ask at most 3 times to choose an item from the reduced list, till they give a proper index
             device_idx = -1
             choice_number = 0
-            while (device_idx not in range(data_reduction.shape[0])) and (choice_number<3):
+            while device_idx not in range(data_reduction.shape[0]):
                 if choice_number == 0:
                     ask_to_choose(data_reduction)
                 else:
                     ask_to_choose_again()
-                device_idx = int(read_message())
+                income_string = read_message()
+                #check for session reset
+                if check_reset(income_string):
+                    reset()
+                    return
+                device_idx = int(income_string)
                 choice_number +=1
-            #if a customer entered a proper index, suggest the corresponding item
-            if choice_number<3:            
-                suggest(data_reduction, device_idx)
-            else:
-                suggest_random(data_reduction)          
+            #when a customer entered a proper index, suggest the corresponding item
+            suggest(data_reduction, device_idx)
     else:
        suggest_random(data_reduction)
         
