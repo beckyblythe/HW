@@ -1,4 +1,4 @@
-Product Id,Product Name,Brand,Category,Subscription Plan, Tags
+Product Id,Product Name,Brand,Category,Subscription Plan,Tags
 1,iPhone 7 128GB,Apple,Phones & Tablets,44.99, phone smartphone smart
 2,iPhone 7 32GB,Apple,Phones & Tablets,39.99, phone smartphone smart
 3,iPhone 7 Plus 128GB,Apple,Phones & Tablets,49.99, phone smartphone smart
@@ -6,8 +6,8 @@ Product Id,Product Name,Brand,Category,Subscription Plan, Tags
 5,Galaxy S8+ 64GB,Samsung,Phones & Tablets,49.99, phone smartphone smart
 6,Drone BEBOP,Parrot,Drones,49.99, drone
 7,Drone BEBOP 2,Parrot,Drones,59.99, drone
-8,Vive,HTC,Gaming & VR,59.99, vr virual reality headset glasses
-9,Virtual Reality Glasses Rift VR,Oculus,Gaming & VR,59.99, vr virual reality headset glasses
+8,Vive,HTC,Gaming & VR,59.99, vr virtual reality headset glasses
+9,Virtual Reality Glasses Rift VR,Oculus,Gaming & VR,59.99, vr virtual reality headset glasses
 10,"MacBook 12"" M-5Y31, 8GB RAM, 516GB",Apple,Computing,59.99, laptop
 11,"MacBook Air 11"" i7 2.2, 8GB RAM, 512GB",Apple,Computing,64.99, laptop
 12,"MacBook Air 13"" i5-5250U, 4GB RAM, 128GB",Apple,Computing,69.99, laptop
